@@ -31,7 +31,7 @@ function openPlacePopup(item){
 // конец
 
 // Обновлние личных данных
-function handleFormPersomSubmit(evt) {
+function handleFormPersonSubmit(evt) {
     evt.preventDefault();
     const newPersomName = inputPersonName.value;
     const newPersonDescr =  inputPersonDescr.value;
@@ -39,7 +39,7 @@ function handleFormPersomSubmit(evt) {
     personDescr.textContent = newPersonDescr;
     close(popupTypeEdit);
 }
-formPerson.addEventListener('submit', handleFormPersomSubmit);
+formPerson.addEventListener('submit', handleFormPersonSubmit);
 // конец
 
 // добавление новых мест
