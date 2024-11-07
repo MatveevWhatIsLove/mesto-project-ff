@@ -31,7 +31,7 @@ function openPlacePopup(item){
 // конец
 
 // Обновлние личных данных
-function handleFormSubmit(evt) {
+function handleFormPersomSubmit(evt) {
     evt.preventDefault();
     const newPersomName = inputPersonName.value;
     const newPersonDescr =  inputPersonDescr.value;
@@ -39,11 +39,11 @@ function handleFormSubmit(evt) {
     personDescr.textContent = newPersonDescr;
     close(popupTypeEdit);
 }
-formPerson.addEventListener('submit', handleFormSubmit);
+formPerson.addEventListener('submit', handleFormPersomSubmit);
 // конец
 
 // добавление новых мест
-function hendleFormPlace(e){
+function hendleFormPlaceSubmit(e){
     e.preventDefault();
 
     const newPlaceName = inputPlaceName.value;
@@ -57,7 +57,7 @@ function hendleFormPlace(e){
     placesList.prepend(createCard(newPlace, cardTemplate, deleteCard, likeCard, openPlacePopup));
     close(popupNewCard);
 }
-formPlace.addEventListener('submit', hendleFormPlace);
+formPlace.addEventListener('submit', hendleFormPlaceSubmit);
 // конец
 
 // начальная загрузка фото
