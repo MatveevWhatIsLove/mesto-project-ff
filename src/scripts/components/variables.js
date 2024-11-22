@@ -3,11 +3,25 @@
 // export const popupNewCard = document.querySelector('.popup_type_new-card');
 // export const popupTypeImage = document.querySelectorAll('.popup_type_image');
 
-
+// ава
+export const profileImage = document.querySelector('.profile__image');
+export const headerBtn = document.querySelector('.profile__ava-btn');
+export const popupTypeAvatar = document.querySelector('.popup_type_new-avatar');
+export const formTypeAvatar = popupTypeAvatar.querySelector('.popup__form');
+export const popupInputTypeAvatarUrl = popupTypeAvatar.querySelector('.popup__input_type_avatar_url');
+export const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible',
+};
 
 // Инфа ава
 export const personName = document.querySelector('.profile__title');
 export const personDescr = document.querySelector('.profile__description');
+export let userInfo = {}
  
  // попапы 
 export const popupTypeEdit = document.querySelector('.popup_type_edit');

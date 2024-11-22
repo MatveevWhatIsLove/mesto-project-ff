@@ -1,0 +1,18 @@
+.profile__ava{
+    width: 120px;
+    height: 120px;
+    position: relative;
+    margin: 0 29px 0 0;
+}
+
+@media screen and (max-width: 740px) {
+    .profile__ava {
+      margin: 0 10px 0 0;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .profile__ava {
+      margin-right: 0;
+    }
+  }
