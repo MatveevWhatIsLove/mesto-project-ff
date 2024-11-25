@@ -8,7 +8,6 @@ export function createCard(item, template, deleteCard, likeCard, openPlacePopup,
     const cardLikeBtn = card.querySelector('.card__like-button');
     const cardLikeScore = card.querySelector('.card__like-score');
 
-    //  (item);
 
     // моя ли карточка
     if(myDataId !== item.owner._id){
@@ -31,52 +30,49 @@ export function createCard(item, template, deleteCard, likeCard, openPlacePopup,
     })
     // удаление карточки
     cardDeleteButton.addEventListener('click', (e)=>{
-        deleteCard(e, item._id)
+        deleteCard(e, item)
     });
 
     // лайк
     cardLikeBtn.addEventListener('click', (e)=>{
-        likeCard(e, item._id, cardLikeScore, myDataId, item);
+        likeCard(e, item, cardLikeScore, myDataId);
     })
 
     return card
 }
 
-export const deleteCard = (e, cardId, ) =>{
+export const deleteCard = (e, card) =>{
 
-    deleteCardById(cardId)
-    .then((res) =>
+    deleteCardById(card._id)
+    .then(() =>
     {
-        if(res.ok){
-            const cardToDelete = e.target.closest('.card');
-            cardToDelete.remove();
-        }
-        else{
-             (`Ошибка ${res.status}`);
-        }
+        const cardToDelete = e.target.closest('.card');
+        cardToDelete.remove();
     })
+    .catch((err) => console.error('Ошибка при удалении карточки:', err));
 }
 
 //лайк карточки
-export function likeCard(e, cardId, cardLikeScore, myDataId, item){
+export function likeCard(e, card, cardLikeScore, myDataId){
 
     const isLiked = e.target.classList.contains('card__like-button_is-active');
 
         
     if(isLiked){
-        likeCardUserDel(cardId)
+        likeCardUserDel(card._id)
         .then((item) => 
         {
             cardLikeScore.textContent = item.likes.length; // Обновляем счётчик лайков
-            e.target.classList.remove('card__like-button_is-active', item.likes.some(user => user._id === myDataId));
+            e.target.classList.toggle('card__like-button_is-active', item.likes.some(user => user._id === myDataId));
 
         })
+        .catch((err) => console.error('Ошибка при обновлении лайка:', err));
     }
     else{
-        likeCardUser(cardId)
+        likeCardUser(card._id)
         .then((item) => {
             cardLikeScore.textContent = item.likes.length; // Обновляем счётчик лайков
-            e.target.classList.add('card__like-button_is-active', item.likes.some(user => user._id === myDataId));
+            e.target.classList.toggle('card__like-button_is-active', item.likes.some(user => user._id === myDataId));
         })
         .catch((err) => console.error('Ошибка при обновлении лайка:', err));
     }

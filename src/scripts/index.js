@@ -26,34 +26,29 @@ import {
     userInfo
 } from './components/variables';
 
-import { openPopup, close } from './components/popup';
-import { createCard, deleteCard, likeCard } from './components/cardCreate';
+import { openModal, closeModal, initCloseX} from './components/modal';
+import { createCard, deleteCard, likeCard } from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
 import { getInitialCards, getUserInfo, userInfoUpdate, postNewCard, userAvatarUpdate } from './components/api';
-
-let myDataId;
-let myData;
 
 // Получение информации о пользователе и карточках
 const loadInitialData = () => {
     Promise.all([getUserInfo(), getInitialCards()])
         .then(([userData, cardList]) => {
-            myDataId = userData.id;
-            myData = userData;
-
+            const myDataId = userData._id;
             personName.textContent = userData.name;
             personDescr.textContent = userData.about;
             profileImage.style.backgroundImage = `url('${userData.avatar}')`;
 
             cardList.forEach((post) => {
-                placesList.append(createCard(post, cardTemplate, deleteCard, likeCard, openPlacePopup, myDataId, myData));
+                placesList.append(createCard(post, cardTemplate, deleteCard, likeCard, openPlacePopup, myDataId));
             });
         })
         .catch((err) => console.error(`Ошибка загрузки данных: ${err}`));
 };
 
 loadInitialData();
-
+initCloseX();
 
 
 // Включение валидации
@@ -65,11 +60,12 @@ const toggleButtonLoading = (isLoading, popup) => {
     btn.textContent = isLoading ? 'Сохранение...' : 'Сохранить';
 };
 
+
 // Открытие попапа для аватара
 headerBtn.addEventListener('click', () => {
     popupInputTypeAvatarUrl.value = '';
     clearValidation(popupTypeAvatar, validationConfig);
-    openPopup(popupTypeAvatar);
+    openModal(popupTypeAvatar);
 });
 
 // Обработка формы аватара
@@ -79,9 +75,10 @@ formTypeAvatar.addEventListener('submit', (evt) => {
 
     const newPersonAvatar = popupInputTypeAvatarUrl.value;
     userAvatarUpdate({ avatar: newPersonAvatar })
-        .then(() => {
-            profileImage.style.backgroundImage = `url('${newPersonAvatar}')`;
-            close(popupTypeAvatar);
+        .then((data) => {
+             (data, 'Дата');
+            profileImage.style.backgroundImage = `url('${data.avatar}')`;
+            closeModal(popupTypeAvatar);
         })
         .catch((err) => console.error(`Ошибка обновления аватара: ${err}`))
         .finally(() => toggleButtonLoading(false, popupTypeAvatar));
@@ -92,7 +89,7 @@ btnPopupTypeEdit.addEventListener('click', () => {
     inputPersonName.value = personName.textContent;
     inputPersonDescr.value = personDescr.textContent;
     clearValidation(popupTypeEdit, validationConfig);
-    openPopup(popupTypeEdit);
+    openModal(popupTypeEdit);
 });
 
 // Обработка формы профиля
@@ -104,10 +101,10 @@ formPerson.addEventListener('submit', (evt) => {
     const newPersonDescr = inputPersonDescr.value;
 
     userInfoUpdate({ name: newPersonName, about: newPersonDescr })
-        .then(() => {
-            personName.textContent = newPersonName;
-            personDescr.textContent = newPersonDescr;
-            close(popupTypeEdit);
+        .then((data) => {
+            personName.textContent = data.name;
+            personDescr.textContent = data.about;
+            closeModal(popupTypeEdit);
         })
         .catch((err) => console.error(`Ошибка обновления профиля: ${err}`))
         .finally(() => toggleButtonLoading(false, popupTypeEdit));
@@ -118,7 +115,7 @@ btnPopupPlaceAdd.addEventListener('click', () => {
     inputPlaceName.value = '';
     inputPlaceUrl.value = '';
     clearValidation(popupNewCard, validationConfig);
-    openPopup(popupNewCard);
+    openModal(popupNewCard);
 });
 
 // Обработка формы добавления карточки
@@ -131,12 +128,13 @@ formPlace.addEventListener('submit', (evt) => {
         link: inputPlaceUrl.value,
     };
 
-    postNewCard(newPlace)
-
-        .then((post) => {
-            // console.log(post);
-            placesList.prepend(createCard(post, cardTemplate, deleteCard, likeCard, openPlacePopup, myDataId, myData));
-            close(popupNewCard);
+    Promise.all([getUserInfo(), postNewCard(newPlace)])
+        .then(([userData, post]) => {
+            // (userData)
+            const dataID = userData._id
+            //  (post);
+            placesList.prepend(createCard(post, cardTemplate, deleteCard, likeCard, openPlacePopup, dataID));
+            closeModal(popupNewCard);
         })
         .catch((err) => console.error(`Ошибка добавления карточки: ${err}`))
         .finally(() => toggleButtonLoading(false, popupNewCard));
@@ -147,7 +145,7 @@ const openPlacePopup = (item) => {
     popupTypeImageImg.src = item.link;
     popupTypeImageImg.alt = item.name;
     popupTypeImageDescr.textContent = item.name;
-    openPopup(popupTypeImage);
+    openModal(popupTypeImage);
 };
 
 

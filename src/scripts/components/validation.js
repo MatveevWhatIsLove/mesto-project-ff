@@ -1,5 +1,9 @@
-const textPattern = /^[A-Za-zА-Яа-яёЁ\s-,]+$/i;
-const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+import {config} from "./variables";
+
+const turnOffBtn = (btn, config) => {
+    btn.classList.add(config.inactiveButtonClass);
+    btn.disabled = true;
+}
 
 // Функция для показа ошибки
 const showInputError = (formElement, inputElement, errorMessage, config) => 
@@ -25,20 +29,8 @@ const isInputValid = (inputElement) => {
     // данные из input
     const { id, value, validity, dataset, minLength, maxLength } = inputElement;
 
-    if (value.trim() === '') return inputElement.validationMessage; //Проверка на пустоту
     if (!validity.valid) return inputElement.validationMessage; //Стандартная валидность
-    if (minLength > 0 && value.length < minLength) return inputElement.validationMessage; //Минимальная длина
-    if (maxLength > 0 && value.length > maxLength) return inputElement.validationMessage; //Макс длина
 
-    // Проверка на символы
-    if (['input-name', 'input-description', 'input-card-name'].includes(id) && !textPattern.test(value)) {
-        return dataset.errorMessage || 'Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы';
-    }
-
-    // Проверка на url
-    if (id === 'input-card-link' && !urlPattern.test(value)) {
-        return dataset.errorMessage || 'Разрешно только URL';
-    }
 
     // Все ок
     return '';
@@ -63,14 +55,15 @@ const hasInvalidInput = (inputList) => inputList.some((inputElement) => isInputV
 // Переключение состояния кнопки
 const toggleButtonState = (inputList, buttonElement, config) => {
     if (hasInvalidInput(inputList)) {
-        buttonElement.classList.add(config.inactiveButtonClass);
-        buttonElement.disabled = true;
+        turnOffBtn(buttonElement, config);
     } 
     else {
         buttonElement.classList.remove(config.inactiveButtonClass);
         buttonElement.disabled = false;
     }
 };
+
+
 
 // Добавление слушателей на инпуты формы
 const setEventListeners = (formElement, config) => {
@@ -93,7 +86,7 @@ export const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector));
 
     formList.forEach((formElement) => {
-        formElement.addEventListener('submit', (evt) => evt.preventDefault());
+        // formElement.addEventListener('submit', (evt) => evt.preventDefault());
         setEventListeners(formElement, config);
     });
 };
@@ -104,6 +97,5 @@ export const clearValidation = (formElement, config) => {
     const buttonElement = formElement.querySelector(config.submitButtonSelector);
 
     inputList.forEach((inputElement) => hideInputError(formElement, inputElement, config));
-    buttonElement.classList.add(config.inactiveButtonClass);
-    buttonElement.disabled = true;
+    turnOffBtn(buttonElement, config);
 };

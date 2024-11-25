@@ -42,12 +42,12 @@
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="edit-profile">
         
-          <input type="text" name="name" class="popup__input popup__input_type_name" id="input-name" placeholder="Имя" minlength="2"
+          <input type="text" name="name" pattern="[A-Za-zА-Яа-яЁё]+([\s\-][A-Za-zА-Яа-яЁё]+)*" class="popup__input popup__input_type_name" id="input-name" placeholder="Имя" minlength="2"
           maxlength="40" data-error-message="Поле может содержать только латинские и кириллические буквы, знаки дефиса и пробелы." required>
           <span class="popup__error input-name-error"></span>
         
         
-          <input type="text" name="description" class="popup__input popup__input_type_description" id="input-description" placeholder="Занятие" minlength="2" maxlength="200" data-error-message="Поле может содержать только латинские и кириллические буквы, знаки дефиса и пробелы." required>
+          <input type="text" name="description" pattern="[A-Za-zА-Яа-яЁё]+([\s\-][A-Za-zА-Яа-яЁё]+)*" class="popup__input popup__input_type_description" id="input-description" placeholder="Занятие" minlength="2" maxlength="200" data-error-message="Поле может содержать только латинские и кириллические буквы, знаки дефиса и пробелы." required>
           <span class="popup__error input-name-error input-description-error"></span>
 
         <button type="submit" class="button popup__button">Сохранить</button>
@@ -61,11 +61,11 @@
       <form class="popup__form" name="new-place">
 
         
-          <input type="text" name="place-name" class="popup__input popup__input_type_card-name" id="input-card-name" placeholder="Название" minlength="2" maxlength="30" data-error-message="Поле может содержать только латинские и кириллические буквы, знаки дефиса и пробелы." required>
+          <input type="text" name="place-name" pattern="[A-Za-zА-Яа-яЁё]+([\s\-][A-Za-zА-Яа-яЁё]+)*" class="popup__input popup__input_type_card-name" id="input-card-name" placeholder="Название" minlength="2" maxlength="30" data-error-message="Поле может содержать только латинские и кириллические буквы, знаки дефиса и пробелы." required>
           <span class="popup__error input-name-error input-card-name-error"></span>
 
         
-          <input type="url" name="link" class="popup__input popup__input_type_url popup__input_type_place_url" id="input-card-link" placeholder="URL на картинку" data-error-message="Поле может содержать только url фотокарточки" required>
+          <input type="url" name="link"  pattern="https?:\/\/.+"   class="popup__input popup__input_type_url popup__input_type_place_url" id="input-card-link" placeholder="URL на картинку" data-error-message="Поле может содержать только url фотокарточки" required>
         <span class="popup__error input-name-error input-card-link-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
@@ -79,7 +79,7 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Обновить аватар</h3>
       <form class="popup__form" name="new-place">        
-          <input type="url" name="link" class="popup__input popup__input_type_url popup__input_type_avatar_url" id="input-avatar-link" placeholder="URL на картинку" data-error-message="Поле может содержать только url фотокарточки" required>
+          <input type="url" name="link" pattern="https?:\/\/.+"  class="popup__input popup__input_type_url popup__input_type_avatar_url" id="input-avatar-link" placeholder="URL на картинку" data-error-message="Поле может содержать только url фотокарточки" required>
           <span class="popup__error input-name-error input-avatar-link-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
