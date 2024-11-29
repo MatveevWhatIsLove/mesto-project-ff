@@ -1,4 +1,4 @@
-import {config} from "./variables";
+// import {config} from "./variables";
 
 const turnOffBtn = (btn, config) => {
     btn.classList.add(config.inactiveButtonClass);
@@ -27,7 +27,11 @@ const hideInputError = (formElement, inputElement, config) => {
 // Универсальная проверка валидности
 const isInputValid = (inputElement) => {
     // данные из input
-    const { id, value, validity, dataset, minLength, maxLength } = inputElement;
+    const { validity} = inputElement;
+
+    if (inputElement.hasAttribute('data-error-message') && validity.patternMismatch) {
+        return inputElement.dataset.errorMessage; // Возвращаем сообщение из атрибута
+    }
 
     if (!validity.valid) return inputElement.validationMessage; //Стандартная валидность
 

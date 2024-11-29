@@ -13,11 +13,11 @@ const getResponseData = (res) => {
     return res.json();
 }
 
-const nomorepartiesUrlBase = 'https://nomoreparties.co/v1/wff-cohort-27';
+// const nomorepartiesUrlBase = 'https://nomoreparties.co/v1/wff-cohort-27';
 
 // Получение данных пользоватпеля
 export const getUserInfo = () =>{
-    return fetch(`${nomorepartiesUrlBase}/users/me`, {
+    return fetch(`${config.baseUrl}/users/me`, {
             headers: config.headers
     })
     // Проверка на результат запроса
@@ -33,7 +33,7 @@ export const getUserInfo = () =>{
 
 export const userInfoUpdate = (userInfo) =>
 {
-    return fetch(`${nomorepartiesUrlBase}/users/me`, 
+    return fetch(`${config.baseUrl}/users/me`, 
     {
         method: 'PATCH',
         headers: config.headers,
@@ -50,7 +50,7 @@ export const userInfoUpdate = (userInfo) =>
 
 export const userAvatarUpdate = (userInfo) => 
 {
-    return fetch(`${nomorepartiesUrlBase}/users/me/avatar`,
+    return fetch(`${config.baseUrl}/users/me/avatar`,
         {
             method: 'PATCH',
             headers: config.headers,
@@ -81,7 +81,7 @@ export const getInitialCards = () =>{
 
 export const postNewCard = (newCard) =>
 {
-    return fetch(`${nomorepartiesUrlBase}/cards`,
+    return fetch(`${config.baseUrl}/cards`,
     {
         method: 'POST',
         headers: config.headers,
@@ -96,7 +96,7 @@ export const postNewCard = (newCard) =>
 
 export const deleteCardById = (cardId) => 
 {
-    return fetch(`${nomorepartiesUrlBase}/cards/${cardId} `,
+    return fetch(`${config.baseUrl}/cards/${cardId} `,
         {
             method: 'DELETE',
             headers: config.headers
@@ -109,7 +109,7 @@ export const deleteCardById = (cardId) =>
 
 export const likeCardUser = (cardId) => 
 {
-    return fetch(`${nomorepartiesUrlBase}/cards/likes/${cardId} `,
+    return fetch(`${config.baseUrl}/cards/likes/${cardId} `,
         {
             method: 'PUT',
             headers: config.headers
@@ -123,7 +123,7 @@ export const likeCardUser = (cardId) =>
 
 export const likeCardUserDel = (cardId) => 
 {
-    return fetch(`${nomorepartiesUrlBase}/cards/likes/${cardId}`, {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers,
     })

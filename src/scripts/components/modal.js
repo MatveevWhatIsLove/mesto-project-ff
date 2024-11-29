@@ -23,12 +23,6 @@ export function initCloseX () {
     });
 } 
 
-function closePopupX(e) { 
-    const closestPopup = e.target.closest('.popup'); 
-    close(closestPopup); 
-} 
- 
-
 // Обработчик нажатия Escape
 function closePopupEsc(e) {
     if (e.key === 'Escape') {

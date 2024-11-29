@@ -27,9 +27,9 @@ import {
 } from './components/variables';
 
 import { openModal, closeModal, initCloseX} from './components/modal';
-import { createCard, deleteCard, likeCard } from './components/card';
+import { createCard} from './components/card';
 import { enableValidation, clearValidation } from './components/validation';
-import { getInitialCards, getUserInfo, userInfoUpdate, postNewCard, userAvatarUpdate } from './components/api';
+import { getInitialCards, getUserInfo, userInfoUpdate, postNewCard, userAvatarUpdate, deleteCardById, likeCardUser, likeCardUserDel } from './components/api';
 
 // Получение информации о пользователе и карточках
 const loadInitialData = () => {
@@ -41,7 +41,8 @@ const loadInitialData = () => {
             profileImage.style.backgroundImage = `url('${userData.avatar}')`;
 
             cardList.forEach((post) => {
-                placesList.append(createCard(post, cardTemplate, deleteCard, likeCard, openPlacePopup, myDataId));
+                // placesList.append(createCard(post, cardTemplate, deleteCard, likeCard, openPlacePopup, myDataId));
+                placesList.append(createCard(post, cardTemplate, deleteCardById, likeCardUser, likeCardUserDel, openPlacePopup, myDataId));
             });
         })
         .catch((err) => console.error(`Ошибка загрузки данных: ${err}`));
@@ -76,7 +77,6 @@ formTypeAvatar.addEventListener('submit', (evt) => {
     const newPersonAvatar = popupInputTypeAvatarUrl.value;
     userAvatarUpdate({ avatar: newPersonAvatar })
         .then((data) => {
-             (data, 'Дата');
             profileImage.style.backgroundImage = `url('${data.avatar}')`;
             closeModal(popupTypeAvatar);
         })
@@ -128,12 +128,13 @@ formPlace.addEventListener('submit', (evt) => {
         link: inputPlaceUrl.value,
     };
 
-    Promise.all([getUserInfo(), postNewCard(newPlace)])
-        .then(([userData, post]) => {
+    postNewCard(newPlace)
+        .then((post) => {
             // (userData)
-            const dataID = userData._id
+            const dataID = post.owner._id;
             //  (post);
-            placesList.prepend(createCard(post, cardTemplate, deleteCard, likeCard, openPlacePopup, dataID));
+            // placesList.prepend(createCard(post, cardTemplate, deleteCard, likeCard, openPlacePopup, dataID));
+            placesList.prepend(createCard(post, cardTemplate, deleteCardById, likeCardUser, likeCardUserDel, openPlacePopup, dataID));
             closeModal(popupNewCard);
         })
         .catch((err) => console.error(`Ошибка добавления карточки: ${err}`))
